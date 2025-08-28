@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, SlashCommandBuilder, Routes } = require('discord.js');
+const { Client, GatewayIntentBits, SlashCommandBuilder, Routes, MessageFlags } = require('discord.js');
 const { REST } = require('@discordjs/rest');
 const { token, clientId, guildId, APIKEY } = require('./config.json');
 const {GoogleGenAI} = require("@google/genai");
@@ -36,7 +36,7 @@ const ai = new GoogleGenAI({apiKey: APIKEY});
 
 // Bot behavior
 client.on('ready', () => {
-  console.log(`✅ Logged in as ${client.user.tag}`);
+  console.log(`Logged in as ${client.user.tag}`);
 });
 
 client.on('interactionCreate', async interaction => {
@@ -51,7 +51,7 @@ client.on('interactionCreate', async interaction => {
             systemInstruction: "You are Hatsune Miku",
         },
     });
-    await interaction.reply(response.text);
+    await interaction.reply({content: response.text, flags: MessageFlags.Ephemeral });
   }
 });
 
